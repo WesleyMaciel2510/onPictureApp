@@ -1,7 +1,7 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {useBetween} from 'use-between';
-//import {useCameraPermission} from 'react-native-vision-camera';
-//import {CameraPermissionStatus} from 'react-native-vision-camera';
+import {Camera, useCameraPermission} from 'react-native-vision-camera';
+import {CameraRoll} from 'react-native';
 
 export const useStateVariables = () => {
   const [cameraPermission, setCameraPermission] = useState(false);
@@ -13,12 +13,12 @@ export const useStateVariables = () => {
 export const useSharedState = () => useBetween(useStateVariables);
 
 export const useInit = () => {
-  //const {hasPermission, requestPermission} = useCameraPermission();
+  const {hasPermission, requestPermission} = useCameraPermission();
   const {setCameraPermission} = useSharedState();
 
   useEffect(() => {
     console.log('chamou useInit');
-    /* const requestPermissions = async () => {
+    const requestPermissions = async () => {
       if (!hasPermission) {
         try {
           const status = await requestPermission();
@@ -31,7 +31,32 @@ export const useInit = () => {
         console.log('Ja tem permissao!');
         setCameraPermission(true);
       }
-    }; */
-    //requestPermissions();
+    };
+    requestPermissions();
   }, []);
 };
+
+/* export const useOntakePicture = () => {
+  const camera = useRef<Camera>(null);
+  const handleTakePicture = async () => {
+    console.log('chamou handleTakePicture');
+    console.log('camera.current = ', camera.current);
+
+    if (camera.current) {
+      try {
+        console.log('entrou no try');
+
+        const photo = await camera.current.takePhoto();
+        const result = await fetch(`file://${photo.path}`);
+        const data = await result.blob();
+        console.log('data = ', data);
+
+        // Optionally save to Camera Roll
+        await CameraRoll.save(`file://${photo.path}`, {type: 'photo'});
+      } catch (error) {
+        console.error('Error taking photo:', error);
+      }
+    }
+  };
+  return handleTakePicture;
+}; */
