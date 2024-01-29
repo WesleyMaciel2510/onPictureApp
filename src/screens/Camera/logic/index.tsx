@@ -1,20 +1,25 @@
 import {useEffect, useRef, useState} from 'react';
 import {useBetween} from 'use-between';
 import {Camera, useCameraPermission} from 'react-native-vision-camera';
-import {CameraRoll} from 'react-native';
+import {requestSavePermission} from '../../../helpers/savePicture';
 
 export const useStateVariables = () => {
   const [cameraPermission, setCameraPermission] = useState(false);
+  const [savePermission, setSavePermission] = useState(false);
+
   return {
     cameraPermission,
     setCameraPermission,
+    savePermission,
+    setSavePermission,
   };
 };
 export const useSharedState = () => useBetween(useStateVariables);
 
 export const useInit = () => {
   const {hasPermission, requestPermission} = useCameraPermission();
-  const {setCameraPermission} = useSharedState();
+  const {setCameraPermission, savePermission, setSavePermission} =
+    useSharedState();
 
   useEffect(() => {
     console.log('chamou useInit');
@@ -24,6 +29,15 @@ export const useInit = () => {
           const status = await requestPermission();
           console.log('status = ', status);
           status ? setCameraPermission(true) : setCameraPermission(false);
+
+          //now ask savePermission
+          if (!savePermission) {
+            const permissionToSave = await requestSavePermission();
+            console.log('permissionToSave status = ', permissionToSave);
+            permissionToSave
+              ? setSavePermission(true)
+              : setSavePermission(false);
+          }
         } catch (err) {
           console.error('error = ', err);
         }

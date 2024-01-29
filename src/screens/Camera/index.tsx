@@ -8,13 +8,14 @@ import {
 } from 'react-native';
 import {useInit, useSharedState /* useOntakePicture */} from './logic';
 import {Camera, useCameraDevice} from 'react-native-vision-camera';
-//import {CameraRoll} from 'react-native';
+import {CameraRoll} from '@react-native-camera-roll/camera-roll';
 
 export default function CameraScreen({}) {
-  const {cameraPermission} = useSharedState();
+  const {cameraPermission, savePermission} = useSharedState();
   const device = useCameraDevice('back');
   //const handleTakePicture = useOntakePicture();
   const camera = useRef<Camera>(null);
+
   const handleTakePicture = async () => {
     console.log('chamou handleTakePicture');
     console.log('camera.current = ', camera.current);
@@ -25,11 +26,18 @@ export default function CameraScreen({}) {
 
         const photo = await camera.current.takePhoto();
         const result = await fetch(`file://${photo.path}`);
+        console.log('photo path = ', result);
         const data = await result.blob();
         console.log('Photo taken = ', data);
 
         // Optionally save to Camera Roll
-        //await CameraRoll.save(`file://${photo.path}`, {type: 'photo'});
+        if (savePermission) {
+          const savedPicture = await CameraRoll.saveAsset(
+            `file://${photo.path}`,
+            {type: 'photo'},
+          );
+          console.log('savedPicture = ', savedPicture);
+        }
       } catch (error) {
         console.error('Error taking photo:', error);
       }

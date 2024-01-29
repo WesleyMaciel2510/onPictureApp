@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@babel/preset-typescript": "^7.23.3",
+    "@react-native-camera-roll/camera-roll": "^7.4.0",
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/native-stack": "^6.9.17",
     "@types/react-native-vector-icons": "^6.4.18",
