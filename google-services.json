@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "481510036006",
+    "project_id": "appserver-2510",
+    "storage_bucket": "appserver-2510.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:481510036006:android:dd9a5170d4db0112780ce7",
+        "android_client_info": {
+          "package_name": "com.onPictureapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWYKn1fYBSJS8oGPOjhqGQoTqWvCibl5Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

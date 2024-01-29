@@ -1,6 +1,6 @@
-import {useEffect, useRef, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {useBetween} from 'use-between';
-import {Camera, useCameraPermission} from 'react-native-vision-camera';
+import {useCameraPermission} from 'react-native-vision-camera';
 import {requestSavePermission} from '../../../helpers/savePicture';
 
 export const useStateVariables = () => {
@@ -49,28 +49,3 @@ export const useInit = () => {
     requestPermissions();
   }, []);
 };
-
-/* export const useOntakePicture = () => {
-  const camera = useRef<Camera>(null);
-  const handleTakePicture = async () => {
-    console.log('chamou handleTakePicture');
-    console.log('camera.current = ', camera.current);
-
-    if (camera.current) {
-      try {
-        console.log('entrou no try');
-
-        const photo = await camera.current.takePhoto();
-        const result = await fetch(`file://${photo.path}`);
-        const data = await result.blob();
-        console.log('data = ', data);
-
-        // Optionally save to Camera Roll
-        await CameraRoll.save(`file://${photo.path}`, {type: 'photo'});
-      } catch (error) {
-        console.error('Error taking photo:', error);
-      }
-    }
-  };
-  return handleTakePicture;
-}; */

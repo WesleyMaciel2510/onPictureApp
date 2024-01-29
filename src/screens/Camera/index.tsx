@@ -6,14 +6,13 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
-import {useInit, useSharedState /* useOntakePicture */} from './logic';
+import {useInit, useSharedState} from './logic';
 import {Camera, useCameraDevice} from 'react-native-vision-camera';
 import {CameraRoll} from '@react-native-camera-roll/camera-roll';
 
 export default function CameraScreen({}) {
   const {cameraPermission, savePermission} = useSharedState();
   const device = useCameraDevice('back');
-  //const handleTakePicture = useOntakePicture();
   const camera = useRef<Camera>(null);
 
   const handleTakePicture = async () => {
@@ -30,7 +29,6 @@ export default function CameraScreen({}) {
         const data = await result.blob();
         console.log('Photo taken = ', data);
 
-        // Optionally save to Camera Roll
         if (savePermission) {
           const savedPicture = await CameraRoll.saveAsset(
             `file://${photo.path}`,
@@ -44,6 +42,7 @@ export default function CameraScreen({}) {
     }
   };
   useInit();
+  // eslint-disable-next-line curly, react/jsx-no-undef
   if (device == null) return <NoCameraDeviceError />;
 
   return (
