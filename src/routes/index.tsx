@@ -9,7 +9,7 @@ const Stack = createNativeStackNavigator();
 const AppStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName="CameraScreen"
+      initialRouteName="Home"
       screenOptions={{
         headerShown: false,
         headerTitle: '',

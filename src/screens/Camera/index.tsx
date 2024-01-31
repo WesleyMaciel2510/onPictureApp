@@ -6,18 +6,21 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
-import {useInit, useSharedState} from './logic';
+import {useInit, useSharedState /* useOnSendPicture */} from './logic';
 import {Camera, useCameraDevice} from 'react-native-vision-camera';
 import {CameraRoll} from '@react-native-camera-roll/camera-roll';
+import {storage} from '../../helpers/storage';
+import {sendDataToServer} from '../../services/sendDataToServer';
 
 export default function CameraScreen({}) {
-  const {cameraPermission, savePermission} = useSharedState();
+  const {cameraPermission, savePermission, setPhoto} = useSharedState();
   const device = useCameraDevice('back');
   const camera = useRef<Camera>(null);
+  //const {handleSendPicture} = useOnSendPicture();
+  useInit();
 
   const handleTakePicture = async () => {
     console.log('chamou handleTakePicture');
-    console.log('camera.current = ', camera.current);
 
     if (camera.current) {
       try {
@@ -35,13 +38,14 @@ export default function CameraScreen({}) {
             {type: 'photo'},
           );
           console.log('savedPicture = ', savedPicture);
+          storage.set('savedPicture', JSON.stringify(savedPicture));
+          setPhoto(savedPicture);
         }
       } catch (error) {
         console.error('Error taking photo:', error);
       }
     }
   };
-  useInit();
   // eslint-disable-next-line curly, react/jsx-no-undef
   if (device == null) return <NoCameraDeviceError />;
 
@@ -58,11 +62,19 @@ export default function CameraScreen({}) {
               photo={true}
             />
             <TouchableOpacity
-              style={styles.button}
+              style={[styles.button, styles.buttonTakePicture]}
               onPress={() => {
                 handleTakePicture();
               }}>
               <Text style={styles.buttonText}>TAKE PICTURE</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.button, styles.buttonSendPicture]}
+              onPress={() => {
+                console.log('clicou');
+                sendDataToServer();
+              }}>
+              <Text style={styles.buttonText}>SEND PICTURE</Text>
             </TouchableOpacity>
           </View>
         ) : (
@@ -84,13 +96,20 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: 'white',
-    position: 'absolute',
-    bottom: 30,
-    left: '33%',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 8,
     marginHorizontal: 5,
+  },
+  buttonTakePicture: {
+    position: 'absolute',
+    bottom: 30,
+    left: '33%',
+  },
+  buttonSendPicture: {
+    position: 'absolute',
+    bottom: 90,
+    left: '33%',
   },
   buttonText: {
     color: 'black',
