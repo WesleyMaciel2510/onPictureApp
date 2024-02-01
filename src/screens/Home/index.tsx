@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 import {sendDataToServer} from '../../services/sendDataToServer';
 import {getDataFromServer} from '../../services/getDataFromServer';
+import {updateServerData} from '../../services/updateServerData';
+import {deleteServerData} from '../../services/deleteServerData';
 //import {useInit, useSharedState} from './logic';
 //import {useNavigation} from '@react-navigation/native';
 
@@ -29,18 +31,30 @@ export default function Home() {
         <TouchableOpacity
           style={[styles.button, styles.buttonSendData]}
           onPress={() => {
-            console.log('clicou');
             sendDataToServer();
           }}>
-          <Text style={styles.buttonText}>SEND DATA</Text>
+          <Text style={styles.buttonText}>ADD DATA</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.button, styles.buttonGetData]}
           onPress={() => {
-            console.log('clicou');
             getDataFromServer();
           }}>
           <Text style={styles.buttonText}>GET DATA</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.button, styles.buttonUpdateData]}
+          onPress={() => {
+            updateServerData();
+          }}>
+          <Text style={styles.buttonText}>UPDATE DATA</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.button, styles.buttonDeleteData]}
+          onPress={() => {
+            deleteServerData();
+          }}>
+          <Text style={styles.buttonText}>DELETE DATA</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -73,12 +87,22 @@ const styles = StyleSheet.create({
   },
   buttonGetData: {
     position: 'absolute',
-    bottom: 90,
-    left: '36%',
+    bottom: 200,
+    left: '38%',
   },
   buttonSendData: {
     position: 'absolute',
-    bottom: 30,
+    bottom: 150,
+    left: '37%',
+  },
+  buttonUpdateData: {
+    position: 'absolute',
+    bottom: 100,
+    left: '35%',
+  },
+  buttonDeleteData: {
+    position: 'absolute',
+    bottom: 50,
     left: '35%',
   },
   buttonText: {
