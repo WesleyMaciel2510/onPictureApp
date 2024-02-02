@@ -4,7 +4,7 @@ import {database} from './firebase';
 export const deleteDatabase = async () => {
   //important: index 0 = userID 1 and so on because indexes starts in 0 as array
   const index = 10;
-  const dataPath = `/appServer/Users/${index}`;
+  const dataPath = `/onPictureApp/Users/${index}`;
 
   try {
     await remove(child(ref(database), dataPath));

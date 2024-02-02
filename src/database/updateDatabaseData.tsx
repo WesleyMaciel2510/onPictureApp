@@ -4,7 +4,7 @@ import {database} from './firebase';
 export const updateDatabase = async (/* newData: unknown */) => {
   //important: index 0 = userID 1 and so on because indexes starts in 0 as array
   const index = 0;
-  const dataPath = `/appServer/Users/${index}`;
+  const dataPath = `/onPictureApp/Users/${index}`;
   const newData = {
     ID: index + 1,
     Name: 'Carlos Silva',
