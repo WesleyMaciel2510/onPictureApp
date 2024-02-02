@@ -67,3 +67,5 @@ yarn-error.log
 
 #credentials
 /android/app/google-services.json
+onPictureApp-release.keystore
+firebase.tsx

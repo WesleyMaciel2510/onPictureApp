@@ -12,6 +12,13 @@ import {sendDataToServer} from '../../services/sendDataToServer';
 import {getDataFromServer} from '../../services/getDataFromServer';
 import {updateServerData} from '../../services/updateServerData';
 import {deleteServerData} from '../../services/deleteServerData';
+import {
+  getDatabaseData,
+  getDataByUserID,
+  sendDataToDatabase,
+  updateDatabase,
+  deleteDatabase,
+} from '../../database/index';
 //import {useInit, useSharedState} from './logic';
 //import {useNavigation} from '@react-navigation/native';
 
@@ -31,28 +38,33 @@ export default function Home() {
         <TouchableOpacity
           style={[styles.button, styles.buttonSendData]}
           onPress={() => {
-            sendDataToServer();
+            /* sendDataToServer(); */
+            sendDataToDatabase();
           }}>
           <Text style={styles.buttonText}>ADD DATA</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.button, styles.buttonGetData]}
           onPress={() => {
-            getDataFromServer();
+            //getDataFromServer();
+            //getDataByUserID();
+            getDatabaseData();
           }}>
           <Text style={styles.buttonText}>GET DATA</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.button, styles.buttonUpdateData]}
           onPress={() => {
-            updateServerData();
+            /* updateServerData(); */
+            updateDatabase();
           }}>
           <Text style={styles.buttonText}>UPDATE DATA</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.button, styles.buttonDeleteData]}
           onPress={() => {
-            deleteServerData();
+            /* deleteServerData(); */
+            deleteDatabase();
           }}>
           <Text style={styles.buttonText}>DELETE DATA</Text>
         </TouchableOpacity>
