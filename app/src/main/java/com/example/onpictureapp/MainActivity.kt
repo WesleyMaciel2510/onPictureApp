@@ -2,7 +2,6 @@ package com.example.onpictureapp
 
 import android.os.Bundle
 import android.view.Menu
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -14,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.widget.Button
 import com.example.onpictureapp.databinding.ActivityMainBinding
+import services.ApiService
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,7 +30,18 @@ class MainActivity : AppCompatActivity() {
         val buttonRequest = findViewById<Button>(R.id.buttonRequest)
         buttonRequest.setOnClickListener {
             // Log a message when the button is clicked
-            Log.d("MainActivity", "Request button clicked in Main!")
+            //Log.d("MainActivity", "Request button clicked in Main!")
+            Thread {
+                val jsonData = ApiService.fetchPhotos(page = 1, perPage = 20)
+                runOnUiThread {
+                    if (jsonData != null) {
+                        // Display the JSON data or parse it to display images
+                        Log.d("PexelsRequest", "Data: $jsonData")
+                    } else {
+                        Log.d("PexelsRequest", "Failed to fetch data")
+                    }
+                }
+            }.start()
         }
 
         val drawerLayout: DrawerLayout = binding.drawerLayout
