@@ -12,7 +12,11 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.widget.Button
+import android.widget.ImageView
+import coil.load
 import com.example.onpictureapp.databinding.ActivityMainBinding
+import org.json.JSONException
+import org.json.JSONObject
 import services.ApiService
 
 class MainActivity : AppCompatActivity() {
@@ -32,16 +36,32 @@ class MainActivity : AppCompatActivity() {
             // Log a message when the button is clicked
             //Log.d("MainActivity", "Request button clicked in Main!")
             Thread {
-                val jsonData = ApiService.fetchPhotos(page = 1, perPage = 20)
+                val jsonData = ApiService.fetchPhotos(page = 1, perPage = 1)
                 runOnUiThread {
                     if (jsonData != null) {
-                        // Display the JSON data or parse it to display images
-                        Log.d("PexelsRequest", "Data: $jsonData")
+                        try {
+                            val jsonObject = JSONObject(jsonData)
+                            val photos = jsonObject.getJSONArray("photos")
+                            val photoObject = photos.getJSONObject(0)
+                            val imageUrl = photoObject.getJSONObject("src").getString("portrait")
+
+                            // Load image into ImageView using Coil
+                            val imageView = findViewById<ImageView>(R.id.imageView3)
+                            imageView.load(imageUrl) {
+                                crossfade(true)
+                                placeholder(R.drawable.ic_menu_gallery)
+                                error(R.drawable.ic_launcher_foreground)
+                            }
+
+                        } catch (e: JSONException) {
+                            Log.e("PexelsRequest", "JSON Parsing error: ${e.message}")
+                        }
                     } else {
                         Log.d("PexelsRequest", "Failed to fetch data")
                     }
                 }
             }.start()
+
         }
 
         val drawerLayout: DrawerLayout = binding.drawerLayout
