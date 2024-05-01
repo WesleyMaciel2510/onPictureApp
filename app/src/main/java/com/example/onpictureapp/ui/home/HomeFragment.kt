@@ -27,14 +27,13 @@ class HomeFragment : Fragment() {
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
-        val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
         return root
     }
-
+    // Find the button by its ID
+    //val buttonRequest = view.findViewById<Button>(R.id.buttonRequest)
+    // Set an OnClickListener for the button
+    //buttonRequest.setOnClickListener {
+    //Log.d("HomeFragment", "Request button clicked!")
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

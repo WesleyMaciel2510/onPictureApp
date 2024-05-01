@@ -9,7 +9,7 @@ object ApiService {
     private val client = OkHttpClient()
     private val APIKEY = BuildConfig.PEXELS_API_KEY
 
-    fun fetchPhotos(page: Int = 1, perPage: Int = 6): String? {
+    fun fetchPhotos(page: Int = 1, perPage: Int = 8): String? {
         Log.d("PexelsRequest", "API KEY Value: $APIKEY")
         val request = Request.Builder()
             .url("https://api.pexels.com/v1/curated?per_page=$perPage")
