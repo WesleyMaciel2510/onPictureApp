@@ -36,31 +36,42 @@ class MainActivity : AppCompatActivity() {
             // Log a message when the button is clicked
             //Log.d("MainActivity", "Request button clicked in Main!")
             Thread {
-                val jsonData = ApiService.fetchPhotos(page = 1, perPage = 1)
+                val jsonData = ApiService.fetchPhotos(page = 1, perPage = 6)
                 runOnUiThread {
                     if (jsonData != null) {
                         try {
                             val jsonObject = JSONObject(jsonData)
                             val photos = jsonObject.getJSONArray("photos")
-                            val photoObject = photos.getJSONObject(0)
-                            val imageUrl = photoObject.getJSONObject("src").getString("portrait")
 
-                            // Load image into ImageView using Coil
-                            val imageView = findViewById<ImageView>(R.id.imageView3)
-                            imageView.load(imageUrl) {
-                                crossfade(true)
-                                placeholder(R.drawable.ic_menu_gallery)
-                                error(R.drawable.ic_launcher_foreground)
+                            val imageViews = listOf(
+                                findViewById<ImageView>(R.id.imageView1),
+                                findViewById<ImageView>(R.id.imageView2),
+                                findViewById<ImageView>(R.id.imageView3),
+                                findViewById<ImageView>(R.id.imageView4),
+                                findViewById<ImageView>(R.id.imageView5),
+                                findViewById<ImageView>(R.id.imageView6)
+                            )
+
+                            for (i in 0 until photos.length()) {
+                                val photoObject = photos.getJSONObject(i)
+                                val imageUrl = photoObject.getJSONObject("src").getString("portrait")
+                                imageViews[i].load(imageUrl) {
+                                    crossfade(true)
+                                    placeholder(R.drawable.ic_menu_gallery)
+                                    error(R.drawable.ic_launcher_foreground)
+                                }
                             }
-
                         } catch (e: JSONException) {
                             Log.e("PexelsRequest", "JSON Parsing error: ${e.message}")
+                        } catch (e: IndexOutOfBoundsException) {
+                            Log.e("PexelsRequest", "Error: Not enough images returned from the API.")
                         }
                     } else {
                         Log.d("PexelsRequest", "Failed to fetch data")
                     }
                 }
             }.start()
+
 
         }
 
